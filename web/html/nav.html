@@ -22,10 +22,17 @@
             <a class="nav-link" href="https://issues.liferay.com/browse/LRSUPPORT-23591" data-toggle="tooltip" title="Report bug on issues.liferay.com" target="_blank"><i class="fa fa-bug" aria-hidden="true"></i> Bug report</a>
           </li>
       </ul>
-      <span class="navbar-text">
-        {{.User}} (<a class="link" href="/logout">logout</a>)
-      </span>
-      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="rounded-circle" src="https://s.gravatar.com/avatar/{{.UserMD5}}?s=24" alt="{{.User}}">
+          </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/logout">Log out</a>
+            </div>
+        </li>
+      </ul>
+    </div>
   </div>
   {{if .WebPushEnabled}}
   <button disabled class="btn btn-warning btn-sm mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">

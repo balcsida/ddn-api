@@ -5,6 +5,8 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+	"crypto/md5"
+	"encoding/hex"
 
 	"github.com/djavorszky/ddn-api/database/data"
 	"github.com/djavorszky/ddn-api/registry"
@@ -27,6 +29,7 @@ type Page struct {
 	MessageType            string
 	User                   string
 	HasUser                bool
+	UserMD5				   string
 	HasEntry               bool
 	PrivateDatabases       []data.Row
 	PublicDatabases        []data.Row
@@ -85,6 +88,16 @@ func loadPage(w http.ResponseWriter, r *http.Request, pages ...string) {
 
 	page.User = userCookie.Value
 	page.HasUser = true
+
+	// GetMD5Hash gives back the MD5 checksum of a string
+	// Source: https://gist.github.com/sergiotapia/8263278
+	func GetMD5Hash(text string) string {
+		hasher := md5.New()
+		hasher.Write([]byte(text))
+		return hex.EncodeToString(hasher.Sum(nil))
+	}
+
+	page.UserMD5 = GetMD5Hash(userCookie.Value) // email MD5 
 
 	session, err := store.Get(r, "user-session")
 	if err != nil {
